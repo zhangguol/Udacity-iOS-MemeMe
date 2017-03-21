@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ViewControllerTestable
 
 class MemeEditorViewController: UIViewController {
 
@@ -20,8 +21,6 @@ class MemeEditorViewController: UIViewController {
     @IBOutlet weak var toolBar: UIToolbar!
     
     // MARK: - Dependence Injections
-    var presenter: ViewControllerPresentable = ViewControllerPresenter.shared
-    var dismisser: ViewControllerDismissable = ViewControllerDismisser.shared
     var dataStore: MemeDataStoreProtocol = MemeoryMemeDataStore.shared
     
     override func viewDidLoad() {
@@ -47,6 +46,12 @@ class MemeEditorViewController: UIViewController {
         subscribeNotifications()
     }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        unsubscribeNotifications()
+    }
+
     // MARK: - Button Actions
     @IBAction func actionButtonTapped(_ sender: UIBarButtonItem) {
         let memedImage = generateMemedImage()
@@ -61,8 +66,8 @@ class MemeEditorViewController: UIViewController {
             
             self.save(memedImage: memedImage)
         }
-        
-        presenter.present(activityVC, from: self, animated: true, completion: nil)
+
+        viewControllerPresenter.present(activityVC, from: self, animated: true, completion: nil)
     }
     
     @IBAction func cancelButtonTapped(_ sender: UIBarButtonItem) {
@@ -140,12 +145,12 @@ extension MemeEditorViewController: UIImagePickerControllerDelegate, UINavigatio
         imagePicker.sourceType = sourceType
         imagePicker.delegate = self
         
-        presenter.present(imagePicker, from: self, animated: true, completion: nil)
+        viewControllerPresenter.present(imagePicker, from: self, animated: true, completion: nil)
     }
     
     // Delegates
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismisser.dismiss(picker, animated: true, completion: nil)
+        viewControllerDismisser.dismiss(picker, animated: true, completion: nil)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
@@ -153,7 +158,7 @@ extension MemeEditorViewController: UIImagePickerControllerDelegate, UINavigatio
         
         imageView.image = image
         configreUI(for: .editing)
-        dismisser.dismiss(picker, animated: true, completion: nil)
+        viewControllerDismisser.dismiss(picker, animated: true, completion: nil)
     }
 }
 
@@ -217,3 +222,5 @@ fileprivate extension MemeEditorViewController {
         static let defaultBottomText = "BOTTOM"
     }
 }
+
+extension MemeEditorViewController: ViewControllerTestable {}

@@ -1,0 +1,6 @@
+framework module ViewControllerTestable {
+  umbrella header "ViewControllerTestable-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -9,8 +9,6 @@
 import Foundation
 
 class MemeoryMemeDataStore: MemeDataStoreProtocol {
-    private init() {}
-    
     static let shared = MemeoryMemeDataStore()
     
     private(set) var memes: [Meme] = []
@@ -18,7 +16,8 @@ class MemeoryMemeDataStore: MemeDataStoreProtocol {
     func store(meme: Meme) {
         memes.append(meme)
     }
-    
+
+    @discardableResult
     func remove(meme: Meme) -> Meme? {
         guard let index = memes.index(of: meme) else { return nil }
         return memes.remove(at: index)
