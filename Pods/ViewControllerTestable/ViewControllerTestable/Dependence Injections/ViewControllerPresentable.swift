@@ -1,24 +1,27 @@
 //
 //  ViewControllerPresentable.swift
-//  MemeMe
+//  ViewControllerTestable
 //
-//  Created by Boxuan Zhang on 3/5/17.
+//  Created by Boxuan Zhang on 3/14/17.
 //  Copyright © 2017 Boxuan Zhang. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
-protocol ViewControllerPresentable {
+public protocol ViewControllerPresentable {
     func present(_ viewController: UIViewController,
                  from aViewController: UIViewController,
                  animated: Bool,
                  completion: (() -> Void)?)
 }
 
-class ViewControllerPresenter: ViewControllerPresentable {
-    static let shared = ViewControllerPresenter()
+public class ViewControllerPresenter: ViewControllerPresentable {
+
+    public init() {}
     
-    func present(_ viewController: UIViewController,
+    public static let shared = ViewControllerPresenter()
+    
+    public func present(_ viewController: UIViewController,
                  from aViewController: UIViewController,
                  animated: Bool,
                  completion: (() -> Void)?) {

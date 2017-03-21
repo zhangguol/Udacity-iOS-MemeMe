@@ -1,23 +1,26 @@
 //
 //  ViewControllerDismissable.swift
-//  MemeMe
+//  ViewControllerTestable
 //
-//  Created by Boxuan Zhang on 3/5/17.
+//  Created by Boxuan Zhang on 3/14/17.
 //  Copyright © 2017 Boxuan Zhang. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
-protocol ViewControllerDismissable {
+public protocol ViewControllerDismissable {
     func dismiss(_ viewController: UIViewController,
                  animated: Bool,
                  completion: (() -> Void)?)
 }
 
-class ViewControllerDismisser: ViewControllerDismissable {
-    static let shared = ViewControllerDismisser()
+public class ViewControllerDismisser: ViewControllerDismissable {
     
-    func dismiss(_ viewController: UIViewController,
+    public init() {}
+    
+    public static let shared = ViewControllerDismisser()
+    
+    public func dismiss(_ viewController: UIViewController,
                  animated: Bool,
                  completion: (() -> Void)?) {
         

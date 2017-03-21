@@ -1,0 +1,12 @@
+PODS:
+  - ViewControllerTestable (0.1.2)
+
+DEPENDENCIES:
+  - ViewControllerTestable (~> 0.1.2)
+
+SPEC CHECKSUMS:
+  ViewControllerTestable: a1848e625324ca18f8f5d49d2584478e8dc080c8
+
+PODFILE CHECKSUM: 07ea5fb2befb0882c74fbdb9ecf67b78126e467b
+
+COCOAPODS: 1.2.0
