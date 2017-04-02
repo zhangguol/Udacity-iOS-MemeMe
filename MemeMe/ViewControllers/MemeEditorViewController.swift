@@ -46,6 +46,12 @@ class MemeEditorViewController: UIViewController {
         subscribeNotifications()
     }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        unsubscribeNotifications()
+    }
+
     // MARK: - Button Actions
     @IBAction func actionButtonTapped(_ sender: UIBarButtonItem) {
         let memedImage = generateMemedImage()
@@ -60,7 +66,7 @@ class MemeEditorViewController: UIViewController {
             
             self.save(memedImage: memedImage)
         }
-        
+
         viewControllerPresenter.present(activityVC, from: self, animated: true, completion: nil)
     }
     

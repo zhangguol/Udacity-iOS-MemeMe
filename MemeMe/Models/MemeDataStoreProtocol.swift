@@ -9,6 +9,7 @@
 import Foundation
 
 protocol MemeDataStoreProtocol {
+    var memes: [Meme] { get }
     func store(meme: Meme)
     func remove(meme: Meme) -> Meme?
 }
