@@ -22,4 +22,12 @@ class MemeoryMemeDataStore: MemeDataStoreProtocol {
         guard let index = memes.index(of: meme) else { return nil }
         return memes.remove(at: index)
     }
+    
+    var numberOfMemes: Int {
+        return memes.count
+    }
+    
+    func meme(at index: Int) -> Meme {
+        return memes[index]
+    }
 }

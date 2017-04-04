@@ -9,6 +9,10 @@
 import UIKit
 import ViewControllerTestable
 
+protocol MemeEditorViewControllerDelegate: class {
+    func memeEditorViewControllerDidSendMeme(_ editorViewController: MemeEditorViewController)
+}
+
 class MemeEditorViewController: UIViewController {
 
     // MARK: - IBOutlets
@@ -19,6 +23,8 @@ class MemeEditorViewController: UIViewController {
     @IBOutlet weak var cancelButton: UIBarButtonItem!
     @IBOutlet weak var cameraButton: UIBarButtonItem!
     @IBOutlet weak var toolBar: UIToolbar!
+   
+    weak var delegate: MemeEditorViewControllerDelegate?
     
     // MARK: - Dependence Injections
     var dataStore: MemeDataStoreProtocol = MemeoryMemeDataStore.shared
@@ -65,6 +71,8 @@ class MemeEditorViewController: UIViewController {
             }
             
             self.save(memedImage: memedImage)
+            self.viewControllerDismisser.dismiss(self, animated: true, completion: nil)
+            self.delegate?.memeEditorViewControllerDidSendMeme(self)
         }
 
         viewControllerPresenter.present(activityVC, from: self, animated: true, completion: nil)
