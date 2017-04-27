@@ -25,6 +25,8 @@ class MemeEditorViewController: UIViewController {
     @IBOutlet weak var toolBar: UIToolbar!
    
     weak var delegate: MemeEditorViewControllerDelegate?
+
+    var memeToEdit: Meme?
     
     // MARK: - Dependence Injections
     var dataStore: MemeDataStoreProtocol = MemeoryMemeDataStore.shared
@@ -42,8 +44,12 @@ class MemeEditorViewController: UIViewController {
         }
         
         cameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
-        
-        configreUI(for: .initial)
+       
+        if let memeToEdit = memeToEdit {
+            configreUI(for: .editing(memeToEdit))
+        } else {
+            configreUI(for: .initial)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -79,11 +85,7 @@ class MemeEditorViewController: UIViewController {
     }
     
     @IBAction func cancelButtonTapped(_ sender: UIBarButtonItem) {
-        imageView.image = nil
-        topTextField.text = Constant.defaultTopText
-        bottomTextField.text = Constant.defaultBottomText
-        
-        configreUI(for: .initial)
+        viewControllerDismisser.dismiss(self, animated: true, completion: nil)
     }
     
     @IBAction func cameraButtonTapped(_ sender: UIBarButtonItem) {
@@ -110,10 +112,10 @@ class MemeEditorViewController: UIViewController {
     private func generateMemedImage() -> UIImage {
         
         toolBar.isHidden = true
-        
+
         // Render view to an image
-        UIGraphicsBeginImageContext(self.view.frame.size)
-        view.drawHierarchy(in: self.view.frame, afterScreenUpdates: true)
+        UIGraphicsBeginImageContext(imageView.frame.size)
+        view.drawHierarchy(in: imageView.convert(view.bounds, from: view), afterScreenUpdates: true)
         let memedImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
@@ -125,12 +127,35 @@ class MemeEditorViewController: UIViewController {
 
 // MRAK: - UI States
 extension MemeEditorViewController {
-    enum UIState { case initial, editing }
+    enum UIState {
+        case initial
+        case editing(Meme?)
+    }
     
     fileprivate func configreUI(for state: UIState) {
-        [actionButton, cancelButton].forEach {
-            $0?.isEnabled = state == .editing
+        func setButtons(isEnable: Bool) {
+            actionButton.isEnabled = isEnable
         }
+        
+        switch state {
+        case .initial:
+            // Reset content
+            imageView.image = nil
+            topTextField.text = Constant.defaultTopText
+            bottomTextField.text = Constant.defaultBottomText
+            
+            setButtons(isEnable: false)
+        case let .editing(meme):
+            setButtons(isEnable: true)
+            
+            if let meme = meme {
+                imageView.image = meme.originalImage
+                topTextField.text = meme.topText
+                bottomTextField.text = meme.bottomText
+            }
+        }
+
+        view.layoutIfNeeded()
     }
 }
 
@@ -165,7 +190,7 @@ extension MemeEditorViewController: UIImagePickerControllerDelegate, UINavigatio
         guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else { return }
         
         imageView.image = image
-        configreUI(for: .editing)
+        configreUI(for: .editing(nil))
         viewControllerDismisser.dismiss(picker, animated: true, completion: nil)
     }
 }

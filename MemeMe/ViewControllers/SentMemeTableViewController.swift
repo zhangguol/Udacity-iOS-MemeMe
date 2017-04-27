@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ViewControllerTestable
 
 class SentMemeTableViewController: UITableViewController {
 
@@ -24,7 +25,7 @@ class SentMemeTableViewController: UITableViewController {
         
         tableView.reloadData()
     }
-
+    
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -41,6 +42,17 @@ class SentMemeTableViewController: UITableViewController {
         (cell as? MemeTableViewCell)?.configure(with: meme)
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let meme = dataStore.meme(at: indexPath.row)
+        let viewMemeVC = ViewMemeViewController.initFromStoryboard(meme: meme)
+        
+        if let naviVC = navigationController {
+            viewControllerPusher.push(viewMemeVC, in: naviVC, animated: true)
+        }
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -62,3 +74,5 @@ class SentMemeTableViewController: UITableViewController {
         
     }
 }
+
+extension SentMemeTableViewController: ViewControllerTestable {}

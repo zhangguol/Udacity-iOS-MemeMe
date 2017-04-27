@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ViewControllerTestable
 
 class SentMemeCollectionViewController: UICollectionViewController {
 
@@ -43,6 +44,15 @@ class SentMemeCollectionViewController: UICollectionViewController {
         
         return cell
     }
+
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let meme = dataStore.meme(at: indexPath.item)
+        let viewMemeVC = ViewMemeViewController.initFromStoryboard(meme: meme)
+        
+        if let naviVC = navigationController {
+            viewControllerPusher.push(viewMemeVC, in: naviVC, animated: true)
+        }
+    }
 }
 
 // MARK: - private methods
@@ -56,3 +66,5 @@ private extension SentMemeCollectionViewController {
         aFlowLayout.itemSize = CGSize(width: dimension, height: dimension)
     }
 }
+
+extension SentMemeCollectionViewController: ViewControllerTestable {}
