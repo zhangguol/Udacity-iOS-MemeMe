@@ -52,9 +52,7 @@ class MemeEditorViewControllerTests: XCTestCase {
 
         XCTAssert(sut.cameraButton.isEnabled == UIImagePickerController.isSourceTypeAvailable(.camera))
 
-        [sut.actionButton, sut.cancelButton].forEach {
-            XCTAssert($0!.isEnabled == false)
-        }
+        XCTAssert(sut.actionButton.isEnabled == false)
     }
 
     // MARK: - Actions
@@ -66,16 +64,9 @@ class MemeEditorViewControllerTests: XCTestCase {
     }
 
     func testCancelButton() {
-        sut.imageView.image = UIImage()
-        sut.cancelButtonTapped(sut.cancelButton)
+        sut.cancelButtonTapped(UIBarButtonItem())
 
-        XCTAssertNil(sut.imageView.image)
-        XCTAssert(sut.topTextField.text == "TOP")
-        XCTAssert(sut.bottomTextField.text == "BOTTOM")
-
-        [sut.actionButton, sut.cancelButton].forEach {
-            XCTAssert($0!.isEnabled == false)
-        }
+        XCTAssert(mockDismisser.dismiss_wasCalled == true)
     }
 
     func testAlbumButton() {
