@@ -5,10 +5,12 @@ After adding text to an image chosen from the Photo Album or Camera, the user ca
 
 This is a course project of Udacity iOS Nondegree class.
 
+MemeMe-1.0 is for the previous session is in the branch [MemeMe-1.0](https://github.com/zhangguol/Udacity-iOS-MemeMe/tree/MemeMe-1.0)
+
 ## Requirements
 
-- Xcode 8.2.1
-- Swift 3.0.2
+- Xcode 8.3.1
+- Swift 3.1
 
 ## Run the project
 
