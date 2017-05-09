@@ -69,7 +69,9 @@ class MemeEditorViewController: UIViewController {
         let memedImage = generateMemedImage()
        
         let activityVC = UIActivityViewController(activityItems: [memedImage], applicationActivities: nil)
-        activityVC.completionWithItemsHandler = { _, _, _, error in
+        activityVC.completionWithItemsHandler = { _, completed, _, error in
+            guard completed else { return }
+            
             if let error = error {
                 let msg = "Failed to share the memed image, please try again.\n\(error.localizedDescription)"
                 self.showErrorAlert(with: msg)

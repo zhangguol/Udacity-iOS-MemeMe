@@ -36,12 +36,6 @@ class SentMemeCollectionViewControllerTests: XCTestCase {
         XCTAssert(sut.flowLayout.minimumInteritemSpacing == 3.0)
     }
     
-    func testNumberOfSections() {
-        let actual = sut.numberOfSections(in: sut.collectionView!)
-        
-        XCTAssert(actual == 1)
-    }
-    
     func testNumberOfCells() {
         let actual = sut.collectionView(sut.collectionView!, numberOfItemsInSection: 0)
         

@@ -37,11 +37,6 @@ class SentMemeTableViewControllerTests: XCTestCase {
         _ = sut.view
     }
 
-    func testNuamberOfSections() {
-        let actual = sut.numberOfSections(in: sut.tableView)
-        XCTAssert(actual == 1)
-    }
-
     func testNumberOfRows() {
         let actual = sut.tableView(sut.tableView, numberOfRowsInSection: 0)
 
